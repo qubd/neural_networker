@@ -3,7 +3,7 @@ neural_networker
 
 Feedforward Neural Network with Gradient Descent in Python.
 
-How about we make a neural network learn to add numbers between one and twenty? Let's use two nodes in the input layer (the two terms to be summed), two hidden layers with five and four nodes each, and a single node in the output layer.
+How about we make a neural network learn to add small numbers? Let's use two nodes in the input layer (the two terms to be summed), two hidden layers with five and four nodes each, and a single node in the output layer (the resulting sum).
 
 ```
 >>>N = NeuralNet([2,5,4,1])
@@ -11,9 +11,9 @@ How about we make a neural network learn to add numbers between one and twenty? 
 Examples: 10, Input variables: 2, Output variables: 1
 ```
 
-The `NeuralNet` constructor takes a list of sizes of the layers. The `DataCSV.regression_training` call parses the data in a CSV file. The first line of this file must contain the variable names, while the other lines are examples we'll use to train the neural network. The second argument to this call is the number of output variables, which are assumend to be furthest right in the CSV. In this case, there is one output variable, the sum.
+The `NeuralNet` constructor takes a list of sizes of the layers as its argument. The `DataCSV.regression_training` call parses the data in a CSV file. The first line of this file contains the variable names, while the other lines are examples we'll use to train the neural network. The second argument to this call is the number of output variables, which are assumend to be furthest right in the CSV. In this case, there is one, the sum.
 
-Next, the data will have to be normalized before the training starts. The normalization is done by simply dividing all values of each variable by the maximum value of that variable present in the dataset. We'll need to store these maximum values in a list so we can reuse them later. Then we can normalize the inputs and outputs.
+Next, the data will have to be normalized. The normalization is done by dividing all values of each variable by the maximum value of that variable present in the dataset. We'll need to store these maximum values in a list so we can reuse them later.
 
 ```
 >>>in_maxs = sums_training_data.get_input_maxs()
@@ -22,9 +22,9 @@ Next, the data will have to be normalized before the training starts. The normal
 >>>D = sums_training_data.normalize_outputs(out_maxs)
 ```
 
-The matrix `Xo` contains rows of example inputs to be fed into to the first layer, while the matrix `D` contains the desired outputs when the examples come out the other end (I'm roughly following the notation in [Efficient Backprop](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf). Matrices are represented as numpy arrays throughout.
+The matrix `Xo` contains rows of example inputs to be fed into to the first layer, while the matrix `D` contains the desired outputs when the examples come out the other end. I'm roughly following the notation in [Efficient Backprop](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf) and matrices are represented as numpy arrays throughout.
 
-Now we can train the neural network with gradient descent. Let's move in the direction of the gradient 10000 times, each time adjusting the weight matrices by adding 5 times the gradient. This will produce a bunch of output, reporting the cost before training and the cost after training, likewise for the weights in the network. The cost function is the sum of squared errors, and the activation function at each node is the logistic curve.
+Now we can train the neural network with gradient descent. Let's move in the direction of the gradient 10000 times, each time adjusting the weight matrices by adding 5 times the gradient. Calling `N.train(Xo, D, 10000, 5)` will do this and produce a bunch of output, reporting the cost before training and the cost after training, likewise for the weights in the network. The cost function is the sum of squared errors, and the activation function at each node is the logistic curve.
 
 ```
 >>>N.train(Xo, D, 10000, 5)
@@ -62,9 +62,9 @@ Final weight matrices:
 
 ```
 
-Now the neural network should be able to do sums of small positive numbers. We can check by using the `sums_predict.csv` file. The call to `DataCSV.regression_testing` parses a csv file where the values of the output variables are absent. There's no need to specify the number of output varibles this time, since that information is in the structure of the neural network that's already been built.
+Now the neural network should be able to do sums of small positive numbers. We can check by using the `sums_predict.csv` file. The call to `DataCSV.regression_testing` parses a csv file where the values of the output variables are absent. There's no need to specify the number of output varibles this time, since that information is present in the structure of the neural network we've already built.
 
-Any inputs/outputs will need to be normalized in the same way as the training data, so we'll use the `in_maxs` and `out_maxs` lists that were made from the training data. Calling `N.show_predictions` with these new normalized inputs will run them through the network, and print the (denormalized) inputs as well as the (denormalized) resulting outputs.
+Any inputs/outputs will need to be normalized in the same way as the training data, so we'll use the `in_maxs` and `out_maxs` lists that were made from the training data. Calling `N.show_predictions` with the normalized inputs will run them through the network, and print the (denormalized) inputs as well as the (denormalized) resulting outputs.
 
 ```
 >>>sums_prediction = DataCSV.regression_prediction('sums_predict.csv')
