@@ -1,4 +1,4 @@
-#Neural Network, Brendan Cordy 2016
+#Neural network with basic gradient decent, Brendan Cordy 2016
 import numpy as np
 from random import shuffle
 
@@ -66,7 +66,7 @@ class DataCSV(object):
 
     #Input data without outputs.
     @classmethod
-    def regression_testing(cls, filename):
+    def regression_prediction(cls, filename):
         with open(filename,'r') as input_file:
             input_data = [line.rstrip('\n').rstrip('\r').split(',') for line in input_file]
 
@@ -190,5 +190,5 @@ class NeuralNet(object):
         print 'Final weight matrices: \n' + str(self.Ws) + '\n'
 
     def show_predictions(self, Xo, in_maxs, out_maxs):
-        print 'Testing inputs: \n' + str(denormalize(Xo, in_maxs)) + '\n'
-        print 'Testing outputs: \n' + str(denormalize(self.feedforward(Xo), out_maxs)) + '\n'
+        print 'Inputs: \n' + str(denormalize(Xo, in_maxs)) + '\n'
+        print 'Outputs: \n' + str(denormalize(self.feedforward(Xo), out_maxs)) + '\n'
