@@ -62,7 +62,7 @@ Final weight matrices:
 
 ```
 
-Now the neural network should be able to do sums of small positive numbers. We can check by using the `sums_predict.csv` file. The call to `DataCSV.regression_testing` parses a csv file where the values of the output variables are absent. There's no need to specify the number of output varibles this time, since that information is present in the structure of the neural network we've already built.
+Now the neural network should be able to do sums of small positive numbers. We can check by using the `sums_predict.csv` file. The call to `DataCSV.regression_prediction` parses a csv file where the values of the output variables are absent. There's no need to specify the number of output varibles this time, since that information is present in the structure of the neural network we've already built.
 
 Any inputs/outputs will need to be normalized in the same way as the training data, so we'll use the `in_maxs` and `out_maxs` lists that were made from the training data. Calling `N.show_predictions` with the normalized inputs will run them through the network, and print the (denormalized) inputs as well as the (denormalized) resulting outputs.
 
